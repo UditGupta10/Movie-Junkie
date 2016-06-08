@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class ImageAdapter extends ArrayAdapter<String>{
 
-    private final String BASE_URL = "http://image.tmdb.org/t/p/w185";
    private Context mContext;
+    private LayoutInflater mInflater;
     private int mResource;
     private int mFieldId=0;
     private List<String> mObjects;
@@ -26,11 +26,11 @@ public class ImageAdapter extends ArrayAdapter<String>{
     public ImageAdapter(Context context, int layoutResource, int resourceId, List<String> objects){
         super(context, layoutResource, resourceId, objects);
         mContext = context;
+        mInflater = LayoutInflater.from(context);
         mResource = layoutResource;
         mFieldId = resourceId;
         mObjects = objects;
     }
-
 
     // create a new ImageView for each item referenced by the Adapter
     @Override
@@ -39,9 +39,8 @@ public class ImageAdapter extends ArrayAdapter<String>{
         ViewHolder holder;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
-            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
-                    (Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(mResource, parent, false);
+
+            convertView = mInflater.inflate(mResource, parent, false);
             holder = new ViewHolder();
             holder.image = (ImageView) convertView.findViewById(mFieldId);
             convertView.setTag(holder);
@@ -51,7 +50,7 @@ public class ImageAdapter extends ArrayAdapter<String>{
 
         }
 
-        String url_full = BASE_URL + getItem(position);
+        String url_full = getItem(position);
 //        while (getItem(position) .equals ("")){
 //            //empty to ensure that the view gets updated only when the url is available
 //        }

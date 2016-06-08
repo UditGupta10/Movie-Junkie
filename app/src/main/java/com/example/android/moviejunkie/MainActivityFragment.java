@@ -37,16 +37,14 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-        View rootview = inflater.inflate(R.layout.fragment_main, container, false);
-
-        GridView gridview = (GridView) rootview.findViewById(R.id.gridview);
+//Log.w("onCreateViewof Fragmant", "now");
         imageAdapter = new ImageAdapter(
                 getActivity(),
                 R.layout.image_layout,
                 R.id.poster_image,
                 new ArrayList<String>());
+        View rootview = inflater.inflate(R.layout.fragment_main, container, false);
+        GridView gridview = (GridView) rootview.findViewById(R.id.gridview);
 
         gridview.setAdapter(imageAdapter);
 
@@ -75,6 +73,7 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(List<String> listOfStrings) {
             super.onPostExecute(listOfStrings);
             if (listOfStrings != null) {
+                imageAdapter.clear();
                imageAdapter.addAll(listOfStrings);
             }
         }
@@ -181,7 +180,7 @@ public class MainActivityFragment extends Fragment {
 
             for (int i = 0; i < resultsArray.length(); i++) {
                 JSONObject movie_data = resultsArray.getJSONObject(i);
-                poster_urls.add(movie_data.getString(TMDB_POSTER));
+                poster_urls.add("http://image.tmdb.org/t/p/w185" + movie_data.getString(TMDB_POSTER));
             }
 
             return poster_urls;
